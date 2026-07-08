@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Player } from "@lottiefiles/react-lottie-player";
+import { useEffect, useState } from "react";
 
 const SOLUTIONS = [
   { title: "Network Infrastructure", lottie: null, dotlottie: "https://lottie.host/embed/672b2909-cf41-4c5a-9f43-1f90b19cf28b/x9O6AdxFgS.lottie", size: 160 },
@@ -21,6 +21,8 @@ const cardVariant = {
 };
 
 export function Solutions() {
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => { setIsClient(true); }, []);
   return (
     <section id="solutions" className="relative py-10 lg:py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -57,7 +59,7 @@ export function Solutions() {
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
               className="relative flex flex-col justify-end rounded-2xl bg-white border-[3px] border-sky-200 hover:border-sky-400 shadow-sm hover:shadow-lg transition-all duration-300 p-4 sm:p-6 h-44 sm:h-52 cursor-default overflow-hidden"
             >
-              {dotlottie ? (
+              {dotlottie && isClient ? (
                 <div className="absolute top-0 right-0 overflow-hidden" style={{ width: `${size}px`, height: `${size}px` }}>
                   <iframe
                     src={dotlottie}
