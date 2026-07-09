@@ -94,16 +94,16 @@ export function StatsWhy() {
                 variants={cardVariant}
                 whileHover={{ scale: 1.03, boxShadow: "0 0 28px rgba(59,130,246,0.18)" }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="rounded-2xl p-6 bg-white border-[3px] border-sky-200 hover:border-sky-400 transition-colors cursor-default"
+                className="rounded-xl p-3 sm:p-4 bg-white border-[3px] border-sky-200 hover:border-sky-400 transition-colors cursor-default"
               >
                 <div className="flex items-start justify-between">
-                  <Icon className="h-6 w-6 text-cyan-600" />
-                  <div className="text-[10px] uppercase tracking-widest text-slate-400">{label}</div>
+                  <Icon className="h-4 w-4 text-cyan-600" />
+                  <div className="text-[9px] uppercase tracking-widest text-slate-400">{label}</div>
                 </div>
-                <div className="mt-4 font-display text-4xl font-semibold text-navy-deep">
+                <div className="mt-2 font-display text-2xl font-semibold text-navy-deep">
                   <CountUp target={n} suffix={suffix} />
                 </div>
-                <div className="mt-2 text-sm text-slate-500 leading-relaxed">{sub}</div>
+                <div className="mt-1 text-xs text-slate-500 leading-relaxed">{sub}</div>
               </motion.div>
             ))}
           </motion.div>
