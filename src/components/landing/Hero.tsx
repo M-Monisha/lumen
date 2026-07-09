@@ -29,7 +29,7 @@ export function Hero() {
         muted
         playsInline
         className="absolute inset-0 w-full h-full"
-        style={{ objectFit: "cover", objectPosition: "center center", minWidth: "100%", minHeight: "100%" }}
+        style={{ objectFit: "cover", objectPosition: "50% 50%", transform: "scale(1)", transformOrigin: "center" }}
       />
 
       {/* Dark overlay */}
