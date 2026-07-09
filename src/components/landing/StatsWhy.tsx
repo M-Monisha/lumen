@@ -1,122 +1,134 @@
-import { useEffect, useRef, useState } from "react";
-import { Clock, MapPin, Users, ShieldCheck, Package, Award } from "lucide-react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
-const STATS = [
-  { icon: Clock,       n: 35,    suffix: "+",  label: "Years",         sub: "Distribution expertise across India" },
-  { icon: MapPin,      n: 18,    suffix: "",   label: "Cities",        sub: "Pan-India network reach" },
-  { icon: Users,       n: 2500,  suffix: "+",  label: "Partners",      sub: "Trusted channel network" },
-  { icon: ShieldCheck, n: 25,    suffix: "+",  label: "Global Brands", sub: "Authorized distributor" },
-  { icon: Package,     n: 1000,  suffix: "+",  label: "SKUs",          sub: "Curated technology portfolio" },
-  { icon: Award,       n: 0,     suffix: "24×7", label: "Support",    sub: "Technical & RMA assistance" },
+const WHY_US = [
+  "Pan-India + South Asia Reach",
+  "25+ Global Brand Partnerships",
+  "Local Stock, Local Billing",
+  "Live on SAP HANA, 24×7",
+  "End-to-End Support",
+  "2,000+ Channel Partners",
+  "35+ Years of Promoter Experience",
 ];
 
-function CountUp({ target, suffix, duration = 1.8 }: { target: number; suffix: string; duration?: number }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-
-  useEffect(() => {
-    if (!inView || target === 0) return;
-    let start = 0;
-    const step = target / (duration * 60);
-    const timer = setInterval(() => {
-      start += step;
-      if (start >= target) { setCount(target); clearInterval(timer); }
-      else setCount(Math.floor(start));
-    }, 1000 / 60);
-    return () => clearInterval(timer);
-  }, [inView, target, duration]);
-
-  if (target === 0) return <span ref={ref}>{suffix}</span>;
-  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
-}
-
-const cardVariant = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-};
-
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.08 } },
-};
+// 7 labels arranged around a center circle
+// angles (degrees) for each label line
+const ANGLES = [320, 355, 30, 150, 185, 220, 260];
 
 export function StatsWhy() {
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => { setIsClient(true); }, []);
+
+  const cx = 400; // SVG center x
+  const cy = 300; // SVG center y
+  const earthR = 90; // radius of earth circle
+  const lineLen = 100; // line length from earth edge
+
   return (
-    <section id="why" className="relative bg-white overflow-hidden">
-      <div className="absolute inset-0 -z-10 opacity-20 bg-[radial-gradient(ellipse_at_bottom_left,oklch(0.85_0.10_240),transparent_55%)]" />
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-16 grid lg:grid-cols-2 gap-10 items-start">
+    <section id="why" className="relative bg-white overflow-hidden py-14 lg:py-20">
+      <div className="absolute inset-0 -z-10 opacity-20 bg-[radial-gradient(ellipse_at_center,oklch(0.85_0.10_240),transparent_55%)]" />
 
-        {/* Left */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          className="max-w-2xl mb-10"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
+          transition={{ duration: 0.6 }}
         >
-          <div className="text-xs uppercase tracking-[0.25em] text-cyan-600">Since 1989</div>
-          <h2 className="mt-3 font-display text-4xl sm:text-5xl font-semibold leading-tight text-navy-deep">
-            India&apos;s Trusted Technology <br />
-            <span className="text-cyan-500">Distribution Partner.</span>
+          <div className="text-xs uppercase tracking-[0.25em] text-cyan-600">Why Us</div>
+          <h2 className="mt-3 font-display text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight text-navy-deep">
+            Why Partners Choose <span className="text-cyan-500">PV Lumens</span>
           </h2>
-          <p className="mt-5 text-slate-500 max-w-lg leading-relaxed">
-            PV Lumens delivers network infrastructure, safety &amp; security, and test &amp; measurement
-            solutions to 2,500+ channel partners across 18 cities in India.
-          </p>
-
-          {/* India map */}
-          <div className="mt-10 relative w-full max-w-sm mx-auto rounded-2xl overflow-hidden">
-            <img
-              src="/india-map.webp"
-              alt="India distribution network"
-              className="w-full h-auto object-contain"
-              style={{ mixBlendMode: "multiply", filter: "brightness(0.95) contrast(1.05)" }}
-            />
-            {/* fade edges to blend with white background */}
-            <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white opacity-30 pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-white opacity-20 pointer-events-none" />
-          </div>
         </motion.div>
 
-        {/* Right — stat cards */}
-        <div>
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-            variants={container}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-60px" }}
-          >
-            {STATS.map(({ icon: Icon, n, suffix, label, sub }) => (
-              <motion.div
-                key={label}
-                variants={cardVariant}
-                whileHover={{ scale: 1.03, boxShadow: "0 0 28px rgba(59,130,246,0.18)" }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="rounded-xl p-3 sm:p-4 bg-white border-[3px] border-sky-200 hover:border-sky-400 transition-colors cursor-default"
-              >
-                <div className="flex items-start justify-between">
-                  <Icon className="h-4 w-4 text-cyan-600" />
-                  <div className="text-[9px] uppercase tracking-widest text-slate-400">{label}</div>
-                </div>
-                <div className="mt-2 font-display text-2xl font-semibold text-navy-deep">
-                  <CountUp target={n} suffix={suffix} />
-                </div>
-                <div className="mt-1 text-xs text-slate-500 leading-relaxed">{sub}</div>
-              </motion.div>
-            ))}
-          </motion.div>
-          <motion.p
-            className="mt-8 text-sm text-slate-500 leading-relaxed border-l-2 border-cyan-500 pl-4"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-          >
-            Backed by technical support, warranty services, and responsible e-waste management — a complete
-            distribution partner, not just a supplier.
-          </motion.p>
+        {/* Desktop — SVG spoke diagram */}
+        <div className="hidden lg:block w-full">
+          <svg viewBox="0 0 800 600" className="w-full h-auto" style={{ overflow: "visible" }}>
+
+            {/* Radiating lines + labels */}
+            {ANGLES.map((angleDeg, i) => {
+              const rad = (angleDeg * Math.PI) / 180;
+              const x1 = cx + earthR * Math.cos(rad);
+              const y1 = cy + earthR * Math.sin(rad);
+              const x2 = cx + (earthR + lineLen) * Math.cos(rad);
+              const y2 = cy + (earthR + lineLen) * Math.sin(rad);
+              const isRight = x2 > cx;
+
+              return (
+                <motion.g
+                  key={WHY_US[i]}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 + i * 0.12, duration: 0.5 }}
+                >
+                  {/* Line */}
+                  <line
+                    x1={x1} y1={y1} x2={x2} y2={y2}
+                    stroke="#7dd3fc" strokeWidth="1.5"
+                    strokeDasharray="4 3" opacity="0.7"
+                  />
+                  {/* Dot at end */}
+                  <circle cx={x2} cy={y2} r="4" fill="#38bdf8" />
+                  {/* Label */}
+                  <text
+                    x={isRight ? x2 + 10 : x2 - 10}
+                    y={y2 + 5}
+                    textAnchor={isRight ? "start" : "end"}
+                    fontSize="12"
+                    fontWeight="600"
+                    fill="#0c4a6e"
+                    fontFamily="system-ui, sans-serif"
+                  >
+                    {WHY_US[i]}
+                  </text>
+                </motion.g>
+              );
+            })}
+
+            {/* Earth iframe in center via foreignObject */}
+            <foreignObject x={cx - earthR - 30} y={cy - earthR - 30} width={(earthR + 30) * 2} height={(earthR + 30) * 2}>
+              <div style={{ width: "100%", height: "100%", borderRadius: "50%", overflow: "hidden" }}>
+                {isClient && (
+                  <iframe
+                    src="https://lottie.host/embed/36c824f8-5ba7-4ce8-b30f-b72dbdf23e03/QL31af3O4P.lottie"
+                    style={{ width: "100%", height: "100%", border: "none", background: "transparent" }}
+                    allowFullScreen
+                  />
+                )}
+              </div>
+            </foreignObject>
+          </svg>
+        </div>
+
+        {/* Mobile — simple list */}
+        <div className="lg:hidden flex flex-col gap-3">
+          {/* Earth lottie on mobile */}
+          {isClient && (
+            <div className="mx-auto w-56 h-56 mb-4">
+              <iframe
+                src="https://lottie.host/embed/36c824f8-5ba7-4ce8-b30f-b72dbdf23e03/QL31af3O4P.lottie"
+                style={{ width: "100%", height: "100%", border: "none", background: "transparent" }}
+                allowFullScreen
+              />
+            </div>
+          )}
+          {WHY_US.map((item, i) => (
+            <motion.div
+              key={item}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.07 }}
+              className="flex items-center gap-3 px-4 py-3 rounded-xl border border-sky-100 bg-white"
+            >
+              <div className="w-2 h-2 rounded-full bg-sky-400 shrink-0" />
+              <span className="text-sm font-semibold text-navy-deep">{item}</span>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

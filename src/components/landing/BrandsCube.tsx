@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link } from "@tanstack/react-router";
 import { BRANDS, type Brand } from "@/lib/brands";
 
 // Distribute 27 brands across 6 cube faces (6+6+6+6+2+1)
@@ -39,8 +40,9 @@ function Face({ brands, transform }: { brands: Brand[]; transform: string }) {
         {brands.map((b) => (
           <div
             key={b.name}
-            className="flex items-center justify-center rounded-lg bg-white border-[3px] border-sky-200 p-2 sm:p-3"
+            className="flex items-center justify-center rounded-lg bg-white border-[3px] border-sky-200 p-2 sm:p-3 cursor-pointer"
             title={b.name}
+            onClick={() => window.location.href = `/brands?brand=${encodeURIComponent(b.name)}`}
           >
             <img
               src={b.logo}
@@ -116,7 +118,7 @@ export function BrandsCube() {
     <section id="brands" className="relative bg-white overflow-hidden">
       <div className="absolute inset-0 -z-10 opacity-30 bg-[radial-gradient(circle_at_70%_50%,oklch(0.85_0.10_240),transparent_60%)]" />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-24 flex flex-col lg:grid lg:grid-cols-5 gap-10 lg:gap-16 items-center">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 lg:py-24 flex flex-col lg:grid lg:grid-cols-5 gap-12 lg:gap-16 items-center">
         <motion.div
           className="lg:col-span-2 w-full"
           initial={{ opacity: 0, x: -40 }}
@@ -134,19 +136,19 @@ export function BrandsCube() {
             partners scale faster with a dedicated technical support team behind them.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <motion.a
-              href="#solutions"
-              whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255,255,255,0.2)" }}
-              whileTap={{ scale: 0.97 }}
-              className="inline-flex items-center gap-2 rounded-full bg-navy-deep text-white px-5 py-2.5 text-sm font-medium hover:bg-navy transition"
-            >
-              View Brands <ArrowRight className="h-4 w-4" />
-            </motion.a>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+              <Link
+                to="/brands"
+                className="inline-flex items-center gap-2 rounded-full bg-navy-deep text-white px-5 py-2.5 text-sm font-medium hover:bg-navy transition"
+              >
+                View Brands <ArrowRight className="h-4 w-4" />
+              </Link>
+            </motion.div>
           </div>
         </motion.div>
 
         <motion.div
-          className="lg:col-span-3 w-full flex justify-center pb-8 lg:pb-0"
+          className="lg:col-span-3 w-full flex justify-center py-8 lg:py-0"
           initial={{ opacity: 0, x: 40 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-80px" }}

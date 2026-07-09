@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/landing/Header";
 import { Hero } from "@/components/landing/Hero";
 import { BrandsCube } from "@/components/landing/BrandsCube";
+import { Industries } from "@/components/landing/Industries";
 import { Solutions } from "@/components/landing/Solutions";
 import { StatsWhy } from "@/components/landing/StatsWhy";
 import { EWasteCallout } from "@/components/landing/EWasteCallout";
@@ -62,9 +63,9 @@ function Landing() {
       <main>
         <Hero />
         <BrandsCube />
+        <Industries />
         <Solutions />
         <StatsWhy />
-        <EWasteCallout />
         <FinalCTA />
       </main>
       <Footer />

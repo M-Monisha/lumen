@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 export function FinalCTA() {
   return (
@@ -14,13 +15,13 @@ export function FinalCTA() {
             Let&apos;s talk about how PV Lumens can support your business with the right technology and the right partner.
           </p>
         </div>
-        <a
-          href="mailto:info@pvlumens.com?subject=Book%20a%20Conversation"
+        <Link
+          to="/contact"
           className="group shrink-0 inline-flex items-center gap-2 rounded-full bg-white text-navy-deep px-6 py-3 text-sm font-semibold hover:bg-ice transition"
         >
           Book a Conversation
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-        </a>
+        </Link>
       </div>
     </section>
   );

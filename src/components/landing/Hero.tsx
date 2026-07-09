@@ -1,12 +1,20 @@
 import { useState } from "react";
 import { ArrowRight, Play, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "@tanstack/react-router";
 import { PVLogo } from "./Logo";
 
 const VIDEO_URL =
   "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_204103_f607742e-09da-4cf5-bb06-4e67b0a531de.mp4";
 
-const NAV_LINKS = ["Brands", "Solutions", "Why Us", "Contact"];
+const NAV_LINKS = [
+  { label: "Brands",    to: "/brands" as const,   isRoute: true  },
+  { label: "Solutions", to: "#solutions",          isRoute: false },
+  { label: "About",     to: "/about" as const,     isRoute: true  },
+  { label: "Blog",      to: "/blog" as const,      isRoute: true  },
+  { label: "News",      to: "/news" as const,      isRoute: true  },
+  { label: "Contact",   to: "/contact" as const,   isRoute: true  },
+];
 
 export function Hero() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -21,7 +29,7 @@ export function Hero() {
         muted
         playsInline
         className="absolute inset-0 w-full h-full"
-        style={{ objectFit: "cover", objectPosition: "center center" }}
+        style={{ objectFit: "cover", objectPosition: "center center", minWidth: "100%", minHeight: "100%" }}
       />
 
       {/* Dark overlay */}
@@ -40,30 +48,20 @@ export function Hero() {
             </a>
             <div className="hidden md:flex items-center gap-8">
               {NAV_LINKS.map((link) => (
-                <a
-                  key={link}
-                  href={`#${link.toLowerCase().replace(" ", "")}`}
-                  className="text-white/75 hover:text-white text-sm font-light transition-colors duration-200"
-                >
-                  {link}
-                </a>
+                link.isRoute
+                  ? <Link key={link.label} to={link.to as "/brands" | "/about" | "/contact" | "/blog" | "/news"} className="text-white/75 hover:text-white text-sm font-light transition-colors duration-200">{link.label}</Link>
+                  : <a key={link.label} href={link.to} target={link.to.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="text-white/75 hover:text-white text-sm font-light transition-colors duration-200">{link.label}</a>
               ))}
             </div>
           </div>
 
-          {/* Right: desktop CTA + hamburger */}
+          {/* Right: hamburger only on mobile */}
           <div className="flex items-center gap-4">
             <a
               href="mailto:info@pvlumens.com"
               className="hidden md:inline text-white/75 hover:text-white text-sm font-light transition-colors duration-200"
             >
               Reach Out
-            </a>
-            <a
-              href="mailto:info@pvlumens.com?subject=Book%20a%20Conversation"
-              className="hidden md:inline-flex items-center bg-white text-black rounded-full px-5 py-2 text-sm font-medium hover:bg-white/90 transition"
-            >
-              Let's Talk
             </a>
 
             {/* Hamburger — mobile only */}
@@ -114,8 +112,7 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.45 }}
             className="mt-5 text-white/70 text-sm md:text-base font-light max-w-md leading-relaxed"
           >
-            India's trusted value-added distributor — connecting 2,500+ channel partners
-            <span className="hidden sm:block" /> with 25+ global technology leaders.
+            India's trusted value-added distributor — connecting 2,000+ channel partners with 25+ global technology leaders, with reach extending across Sri Lanka, Bangladesh, Nepal & the Maldives.
           </motion.p>
 
           {/* Buttons */}
@@ -132,13 +129,13 @@ export function Hero() {
               Explore Ecosystem
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </a>
-            <a
-              href="mailto:info@pvlumens.com?subject=Book%20a%20Conversation"
+            <Link
+              to="/contact"
               className="inline-flex items-center gap-2 border border-white/40 text-white rounded-full px-7 py-3 text-sm font-medium hover:bg-white/10 hover:border-white/60 transition"
             >
               <Play className="h-4 w-4" />
               Book a Conversation
-            </a>
+            </Link>
           </motion.div>
         </div>
       </div>
@@ -171,23 +168,18 @@ export function Hero() {
 
             {/* Links */}
             <nav className="flex-1 flex flex-col justify-center px-8">
-              {[...NAV_LINKS, "Reach Out"].map((link, i) => (
-                <motion.a
-                  key={link}
-                  href={`#${link.toLowerCase().replace(" ", "")}`}
-                  onClick={() => setMenuOpen(false)}
-                  initial={{ opacity: 0, y: 32 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.6,
-                    delay: 0.15 + i * 0.08,
-                    ease: [0.76, 0, 0.24, 1],
-                  }}
-                  className="border-b border-white/10 py-4 text-white transition-all duration-300 hover:pl-4"
-                  style={{ fontFamily: '"Instrument Serif", Georgia, serif', fontSize: "clamp(2rem, 8vw, 3rem)" }}
-                >
-                  {link}
-                </motion.a>
+              {NAV_LINKS.map((link, i) => (
+                link.isRoute
+                  ? <Link key={link.label} to={link.to as "/brands" | "/about" | "/contact"} onClick={() => setMenuOpen(false)}
+                      className="border-b border-white/10 py-4 text-white transition-all duration-300 hover:pl-4 block"
+                      style={{ fontFamily: '"Instrument Serif", Georgia, serif', fontSize: "clamp(2rem, 8vw, 3rem)" }}
+                    >{link.label}</Link>
+                  : <motion.a key={link.label} href={link.to} onClick={() => setMenuOpen(false)}
+                      initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.15 + i * 0.08, ease: [0.76, 0, 0.24, 1] }}
+                      className="border-b border-white/10 py-4 text-white transition-all duration-300 hover:pl-4"
+                      style={{ fontFamily: '"Instrument Serif", Georgia, serif', fontSize: "clamp(2rem, 8vw, 3rem)" }}
+                    >{link.label}</motion.a>
               ))}
             </nav>
 
@@ -198,12 +190,12 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.55 }}
               className="px-8 pb-10"
             >
-              <a
-                href="mailto:info@pvlumens.com?subject=Book%20a%20Conversation"
-                className="block w-full text-center bg-white text-black rounded-full py-4 text-sm font-medium hover:bg-white/90 transition"
+              <Link
+                to="/contact"
+                className="block w-full text-center border border-white/20 text-white rounded-full py-4 text-sm font-medium hover:bg-white/10 transition"
               >
-                Let's Talk
-              </a>
+                Reach Out
+              </Link>
             </motion.div>
           </motion.div>
         )}

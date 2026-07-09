@@ -55,8 +55,8 @@ function FlipCard({ sol, isClient }: { sol: typeof SOLUTIONS[0]; isClient: boole
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white via-white/80 to-transparent px-4 py-3">
             <span className="text-xs font-bold text-navy-deep leading-tight">{sol.title}</span>
           </div>
-          {/* Hover hint */}
-          <div className="absolute top-2 right-2 text-[9px] text-sky-300 font-medium">hover →</div>
+          {/* subtle corner dot instead of text hint */}
+          <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-sky-300" />
         </div>
 
         {/* BACK — Description */}
