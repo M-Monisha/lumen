@@ -12,7 +12,7 @@ export function Hero() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <section id="top" className="relative w-full h-screen overflow-hidden">
+    <section id="top" className="relative w-full h-[85vh] sm:h-screen overflow-hidden">
       {/* ── Video background ── */}
       <video
         src={VIDEO_URL}
@@ -20,7 +20,8 @@ export function Hero() {
         loop
         muted
         playsInline
-        className="absolute inset-0 w-full h-full object-cover"
+        className="absolute inset-0 w-full h-full object-cover object-center"
+        style={{ transform: "scale(1)" }}
       />
 
       {/* Dark overlay */}

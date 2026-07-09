@@ -116,7 +116,7 @@ export function BrandsCube() {
     <section id="brands" className="relative bg-white overflow-hidden">
       <div className="absolute inset-0 -z-10 opacity-30 bg-[radial-gradient(circle_at_70%_50%,oklch(0.85_0.10_240),transparent_60%)]" />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 lg:py-32 grid lg:grid-cols-5 gap-10 lg:gap-16 items-center">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 lg:py-24 flex flex-col lg:grid lg:grid-cols-5 gap-8 lg:gap-16 items-center">
         <motion.div
           className="lg:col-span-2"
           initial={{ opacity: 0, x: -40 }}
@@ -160,8 +160,8 @@ export function BrandsCube() {
             onPointerCancel={onPointerUp}
             className="relative mx-auto touch-none select-none cursor-grab active:cursor-grabbing"
             style={{
-              width: "min(85vw, 460px)",
-              height: "min(85vw, 460px)",
+              width: "min(75vw, 380px)",
+              height: "min(75vw, 380px)",
               perspective: "1400px",
             }}
           >
@@ -171,7 +171,7 @@ export function BrandsCube() {
                 transformStyle: "preserve-3d",
                 transform: `rotateX(${rot.x}deg) rotateY(${rot.y}deg)`,
                 // @ts-expect-error CSS var
-                "--half": "calc(min(90vw, 460px) / 2)",
+                "--half": "calc(min(75vw, 380px) / 2)",
               }}
             >
               {FACES.map((brands, i) => (
