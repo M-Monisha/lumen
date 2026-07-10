@@ -94,7 +94,14 @@ function BrandsPage() {
   // Auto-open modal if ?brand= param is present
   useEffect(() => {
     if (brandParam) {
-      const found = BRAND_DATA.find(b => encodeURIComponent(b.name) === brandParam || b.name === decodeURIComponent(brandParam));
+      const decoded = decodeURIComponent(brandParam);
+      // Try exact match first, then partial/fuzzy match
+      const found = BRAND_DATA.find(b =>
+        b.name === decoded ||
+        b.name.toLowerCase() === decoded.toLowerCase() ||
+        b.name.toLowerCase().includes(decoded.toLowerCase()) ||
+        decoded.toLowerCase().includes(b.name.toLowerCase())
+      );
       if (found) setSelected(found);
     }
   }, [brandParam]);
