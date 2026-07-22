@@ -5,15 +5,16 @@ import { Link } from "@tanstack/react-router";
 import { PVLogo } from "./Logo";
 
 const VIDEO_URL =
-  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260622_204103_f607742e-09da-4cf5-bb06-4e67b0a531de.mp4";
+  "https://videos.pexels.com/video-files/3130284/3130284-uhd_2560_1440_30fps.mp4";
 
 const NAV_LINKS = [
-  { label: "Brands",    to: "/brands" as const,   isRoute: true  },
-  { label: "Solutions", to: "#solutions",          isRoute: false },
-  { label: "About",     to: "/about" as const,     isRoute: true  },
-  { label: "Blog",      to: "/blog" as const,      isRoute: true  },
-  { label: "News",      to: "/news" as const,      isRoute: true  },
-  { label: "Contact",   to: "/contact" as const,   isRoute: true  },
+  { label: "Home",        to: "/" as const,         isRoute: true  },
+  { label: "About Us",    to: "/about" as const,    isRoute: true  },
+  { label: "Industries",  to: "/#industries",       isRoute: false },
+  { label: "Solutions",   to: "/#solutions",        isRoute: false },
+  { label: "Brands",      to: "/brands" as const,   isRoute: true  },
+  { label: "Resources",   to: "/blog" as const,     isRoute: true  },
+  { label: "Contact Us",  to: "/contact" as const,  isRoute: true  },
 ];
 
 export function Hero() {
@@ -49,7 +50,7 @@ export function Hero() {
             <div className="hidden md:flex items-center gap-8">
               {NAV_LINKS.map((link) => (
                 link.isRoute
-                  ? <Link key={link.label} to={link.to as "/brands" | "/about" | "/contact" | "/blog" | "/news"} className="text-white/75 hover:text-white text-sm font-light transition-colors duration-200">{link.label}</Link>
+                  ? <Link key={link.label} to={link.to as "/" | "/brands" | "/about" | "/contact" | "/blog" | "/news"} className="text-white/75 hover:text-white text-sm font-light transition-colors duration-200">{link.label}</Link>
                   : <a key={link.label} href={link.to} target={link.to.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="text-white/75 hover:text-white text-sm font-light transition-colors duration-200">{link.label}</a>
               ))}
             </div>
@@ -170,7 +171,7 @@ export function Hero() {
             <nav className="flex-1 flex flex-col justify-center px-8">
               {NAV_LINKS.map((link, i) => (
                 link.isRoute
-                  ? <Link key={link.label} to={link.to as "/brands" | "/about" | "/contact"} onClick={() => setMenuOpen(false)}
+                  ? <Link key={link.label} to={link.to as "/" | "/brands" | "/about" | "/contact" | "/blog" | "/news"} onClick={() => setMenuOpen(false)}
                       className="border-b border-white/10 py-4 text-white transition-all duration-300 hover:pl-4 block"
                       style={{ fontFamily: '"Instrument Serif", Georgia, serif', fontSize: "clamp(2rem, 8vw, 3rem)" }}
                     >{link.label}</Link>
